@@ -1,73 +1,44 @@
 package main.java;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.PrintStream;
 
 import main.java.automaton.Automaton;
 import main.java.automaton.AutomatonConfig;
 import main.java.automaton.AutomatonLogger;
-import main.java.transition.TransitionArguments;
-import main.java.transition.TransitionResult;
 
 public class App {
+  private static Automaton automaton;
+
   public static void main(String[] args) {
     try {
-      var json = Files.readString(Path.of("automaton.json"));
-      var config = new ObjectMapper().readValue(json, AutomatonConfig.class);
+      var config = AutomatonConfig.readConfigFrom("automaton.json");
+      var transitionTable = AutomatonConfig.readTransitionTableFrom("transition.csv");
 
-      var csv = Files.readString(Path.of("transition.csv"));
-      var transitionMap = new HashMap<TransitionArguments, Set<TransitionResult>>();
-      List.of(csv.split("\n")).forEach(csvLine -> {
-        var line = csvLine.split(",", -1);
+      automaton = new Automaton(config, transitionTable, new AutomatonLogger(new PrintStream(new File("logs.txt"))));
 
-        var currentState = line[0];
-        var input = line[1];
-        var topOfStack = line[2];
-        var nextState = line[3];
-        var stackBuffer = line[4].isEmpty() ? List.<String>of() : List.of(line[4].split(""));
-
-        var arguments = new TransitionArguments(currentState, input, topOfStack);
-        var result = new TransitionResult(nextState, stackBuffer);
-
-        if (!transitionMap.containsKey(arguments)) {
-          transitionMap.put(arguments, Set.of(result));
-        } else {
-          var resultSet = Stream
-              .concat(transitionMap.get(arguments).stream(), Stream.of(result))
-              .collect(Collectors.toUnmodifiableSet());
-          transitionMap.put(arguments, resultSet);
-        }
-      });
-
-      var automaton = new Automaton(config, transitionMap);
       var string = "10aa01";
 
-      System.out.println(automaton);
-
-      System.out.println();
-
-      System.out.println("<TESTING STRING \"" + string + "\">");
-      var test = automaton.test(string);
-      AutomatonLogger.printAllLogs();
-      System.out.println();
-      if (test) {
-        System.out.println("<STRING ACCEPTED>");
-        System.out.println();
-        AutomatonLogger.printSuccessLogs();
-      } else {
-        System.out.println("<STRING DENIED>");
-      }
-      System.out.println();
-
+      test(string);
     } catch (Exception e) {
+      System.out.println("Ocorreu um erro...");
+      System.out.println(e.getMessage());
+      System.out.println();
       e.printStackTrace();
+    }
+  }
+
+  private static void test(String string) {
+    automaton.getLogger().getStream().println(automaton);
+    automaton.getLogger().getStream().println("\n<TESTING STRING \"" + string + "\">\n");
+    var test = automaton.test(string);
+    automaton.getLogger().printAllLogs();
+    if (test) {
+      automaton.getLogger().getStream().println("\n<STRING ACCEPTED>\n");
+      automaton.getLogger().getStream().println("\n-- Transition Path --\n");
+      automaton.getLogger().printSuccessLogs();
+    } else {
+      automaton.getLogger().getStream().println("\n<STRING DENIED>");
     }
   }
 }

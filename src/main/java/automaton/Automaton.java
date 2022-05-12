@@ -12,8 +12,12 @@ import main.java.transition.TransitionResult;
 public class Automaton {
   private AutomatonConfig config;
   private Map<TransitionArguments, Set<TransitionResult>> transitionTable;
+  private AutomatonLogger logger;
 
-  public Automaton(AutomatonConfig config, Map<TransitionArguments, Set<TransitionResult>> transitionTable)
+  public Automaton(
+      AutomatonConfig config,
+      Map<TransitionArguments, Set<TransitionResult>> transitionTable,
+      AutomatonLogger logger)
       throws IllegalAutomatonConfiguration {
 
     for (var symbol : config.inputAlphabet())
@@ -63,7 +67,8 @@ public class Automaton {
 
     this.config = config;
     this.transitionTable = transitionTable;
-    AutomatonLogger.setTransitionTable(transitionTable);
+    this.logger = logger;
+    this.logger.setTransitionTable(transitionTable);
   }
 
   public boolean test(String string) {
@@ -76,10 +81,10 @@ public class Automaton {
   }
 
   private boolean test(AutomatonState automatonState) {
-    AutomatonLogger.log(automatonState);
+    this.logger.log(automatonState);
 
     if (this.acceptState(automatonState)) {
-      AutomatonLogger.logSuccess(automatonState);
+      this.logger.logSuccess(automatonState);
       return true;
     }
 
@@ -88,7 +93,7 @@ public class Automaton {
 
     for (var newState : updateState(automatonState)) {
       if (this.test(newState)) {
-        AutomatonLogger.logSuccess(automatonState);
+        this.logger.logSuccess(automatonState);
         return true;
       }
     }
@@ -145,9 +150,13 @@ public class Automaton {
     return false;
   }
 
+  public AutomatonLogger getLogger() {
+    return this.logger;
+  }
+
   @Override
   public String toString() {
-    return "config: " + this.config.toString()
+    return "Automaton Config: " + this.config.toString()
         + "\nTransition Table:\n"
         + String.join("\n", this.transitionTable.entrySet().stream().map(e -> e.toString()).toList());
   }
