@@ -1,11 +1,11 @@
-package main.java.exceptions;
+package main.java.exception;
 
 import java.util.Map.Entry;
 import java.util.Set;
 
-import main.java.AutomatonConfig;
-import main.java.TransitionArguments;
-import main.java.TransitionResult;
+import main.java.automaton.AutomatonConfig;
+import main.java.transition.TransitionArguments;
+import main.java.transition.TransitionResult;
 
 public class IllegalAutomatonConfiguration extends Exception {
   public IllegalAutomatonConfiguration(String message, AutomatonConfig config) {
