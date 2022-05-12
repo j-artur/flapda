@@ -12,39 +12,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class App {
   public static void main(String[] args) {
-    var objectMapper = new ObjectMapper();
-
     try {
       var json = Files.readString(Path.of("automaton.json"));
-
-      var config = objectMapper.readValue(json, AutomatonConfig.class);
+      var config = new ObjectMapper().readValue(json, AutomatonConfig.class);
 
       var csv = Files.readString(Path.of("transition.csv"));
-
-      var transitions = List.of(csv.split("\n")).stream().map(line -> {
-        var lineItems = line.split(",");
-        return new Transition(
-            lineItems[0],
-            lineItems[1],
-            lineItems[2],
-            lineItems[3],
-            List.of(lineItems[4].split("")));
-      }).toList();
-
       var transitionMap = new HashMap<TransitionArguments, Set<TransitionResult>>();
+      List.of(csv.split("\n")).forEach(csvLine -> {
+        var line = csvLine.split(",", -1);
 
-      transitions.forEach(t -> {
-        var arguments = new TransitionArguments(t.currState(), t.input(), t.stackTop());
-        var result = new TransitionResult(t.nextState(), t.pushToStack());
+        var currentState = line[0];
+        var input = line[1];
+        var topOfStack = line[2];
+        var nextState = line[3];
+        var stackBuffer = line[4].isEmpty() ? List.<String>of() : List.of(line[4].split(""));
 
-        if (transitionMap.containsKey(arguments)) {
-          transitionMap.put(
-              arguments,
-              Stream
-                  .concat(transitionMap.get(arguments).stream(), Stream.of(result))
-                  .collect(Collectors.toUnmodifiableSet()));
-        } else {
+        var arguments = new TransitionArguments(currentState, input, topOfStack);
+        var result = new TransitionResult(nextState, stackBuffer);
+
+        if (!transitionMap.containsKey(arguments)) {
           transitionMap.put(arguments, Set.of(result));
+        } else {
+          var resultSet = Stream
+              .concat(transitionMap.get(arguments).stream(), Stream.of(result))
+              .collect(Collectors.toSet());
+          transitionMap.put(arguments, resultSet);
         }
       });
 

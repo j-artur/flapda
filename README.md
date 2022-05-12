@@ -23,19 +23,20 @@
 2. Modificar o arquivo `"transition.csv"` seguindo os seguintes parâmetros:
 
 - \<estado atual>,\<topo da pilha>,\<entrada>,\<próximo estado>,\<string a ser escrita na pilha>
-- Para cada par do conjunto resultante da função de transição é preciso fazer uma nova linha no arquivo `.csv`
-- Para transições espontâneas ou casos em que não há nada para empilhar, é preciso simbolar o vazio com a ausência de um caractere (mantendo a mesma quantidade de vírgulas).
+- Observações:
+  - Símbolos repetidos nos alfabetos serão ignorados
+  - Para cada par do conjunto resultante da função de transição é preciso fazer uma nova linha no arquivo `.csv`
+  - O vazio ( ε ) é simbolizado com a ausência de um caractere (mantendo a mesma quantidade de vírgulas).
 - Exemplificação:
 
-  - δ(q0, 0, Z) = (q1, 0Z) 👉 `q0,Z,0,q1,0Z`
-  - δ(q0, ε, Z) = { (q1, 0Z), (q0, ε) }
+      δ(q0, 0, Z) = { (q1, 0Z) }
+      δ(q0, ε, Z) = { (q1, 0Z), (q0, ε) }
 
-    👉
+      👉
 
-    ```
-    q0,Z,,q1,0Z
-    q0,Z,,q0,
-    ```
+      q0,0,Z,q1,0Z
+      q0,,Z,q1,0Z
+      q0,,Z,q0,
 
 ### Discentes:
 
