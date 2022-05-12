@@ -24,9 +24,9 @@
 
 - \<estado atual>,\<topo da pilha>,\<entrada>,\<próximo estado>,\<string a ser escrita na pilha>
 - Observações:
-  - Símbolos repetidos nos alfabetos serão ignorados
-  - Para cada par do conjunto resultante da função de transição é preciso fazer uma nova linha no arquivo `.csv`
-  - O vazio ( ε ) é simbolizado com a ausência de um caractere (mantendo a mesma quantidade de vírgulas).
+  - O ACP será considerano como um ACP com aceitação por _pilha vazia_ se não for informado nenhum estado de aceitação no `.json`;
+  - Para cada par do conjunto resultante da função de transição é preciso escrever uma nova linha no arquivo `.csv`;
+  - O vazio ( ε ) é simbolizado no `.csv` com a ausência de um caractere (mantendo a mesma quantidade de vírgulas).
 - Exemplificação:
 
       δ(q0, 0, Z) = { (q1, 0Z) }

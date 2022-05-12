@@ -1,8 +1,8 @@
 {
-  "states": ["q0", "q1", "q2"],
-  "inputAlphabet": ["0", "1"],
-  "stackAlphabet": ["Z", "1"],
+  "states": ["q0"],
+  "inputAlphabet": ["0", "1", "a", " "],
+  "stackAlphabet": ["Z", "0", "1", "A", "a"],
   "initialState": "q0",
   "initialStackSymbol": "Z",
-  "acceptingStates": ["q2"]
+  "acceptingStates": []
 }
