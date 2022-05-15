@@ -49,7 +49,7 @@ public class AutomatonLogger {
           + (log.input().length() > 0 ? "\"" + log.input() + "\"" : "ε") + ", "
           + log.stack() + ")");
     }
-    this.stream.println("> Finish");
+    this.stream.println("> Done");
   }
 
   public void printAllLogs() {
@@ -88,7 +88,7 @@ public class AutomatonLogger {
           + (log.input().length() > 0 ? "\"" + log.input() + "\"" : "ε") + ", "
           + log.stack() + ")");
     }
-    this.stream.println("> Finish");
+    this.stream.println("> No transitions. Finish");
   }
 
   public void setTransitionTable(Map<TransitionArguments, Set<TransitionResult>> transitionTable) {

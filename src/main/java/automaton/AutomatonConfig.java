@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import main.java.exception.IllegalAutomatonConfiguration;
 import main.java.transition.TransitionArguments;
 import main.java.transition.TransitionResult;
 
@@ -55,6 +56,9 @@ public record AutomatonConfig(
     });
 
     return transitionTable;
+  }
+
+  public void isValidConfig(AutomatonConfig config) throws IllegalAutomatonConfiguration {
   }
 
   @Override
