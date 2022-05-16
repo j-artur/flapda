@@ -19,13 +19,19 @@ public class App {
       automaton = new Automaton(config, transitionTable, new AutomatonLogger(new PrintStream(new File("logs.txt"))));
 
       System.out.println(automaton);
+      automaton.getLogger().getStream().println(automaton);
 
       System.out.println("\nTestando o autômato descrito acima.\n");
 
-      System.out.print("Indique a string a ser testada pelo autômato: ");
-      String string = scanner.nextLine();
+      while (true) {
+        System.out.print("Indique a string a ser testada pelo autômato: ");
+        String string = scanner.nextLine();
 
-      test(string);
+        test(string);
+
+        System.out.println("Pressione Ctrl + C para sair ou...");
+      }
+
     } catch (Exception e) {
       System.out.println("Ocorreu um erro...");
       System.out.println(e.getMessage());
@@ -33,7 +39,6 @@ public class App {
   }
 
   private static void test(String string) {
-    automaton.getLogger().getStream().println(automaton);
     System.out.println("\n<TESTING STRING \"" + string + "\">\n");
     automaton.getLogger().getStream().println("\n<TESTING STRING \"" + string + "\">\n");
     var test = automaton.test(string);
