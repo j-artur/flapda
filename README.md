@@ -20,7 +20,7 @@
 ## **Manual de Uso**
 
 1. Modificar o arquivo `"automaton.json"` de acordo com a configuração do autômato desejado.
-2. Modificar o arquivo `"transition.csv"` seguindo os seguintes parâmetros:
+2. Modificar o arquivo `"transition.csv"` para a tabela de transições seguindo os seguintes parâmetros:
 
 - \<estado atual>,\<topo da pilha>,\<entrada>,\<próximo estado>,\<string a ser escrita na pilha>
 - Observações:
@@ -37,6 +37,21 @@
       q0,0,Z,q1,0Z
       q0,,Z,q1,0Z
       q0,,Z,q0,
+
+### Como executar:
+
+- Necessário Java VM (verificar se está na versão 17+)
+  ```console
+  java -version
+  ```
+- Executar o arquivo "flapda.jar" a partir do terminal
+  ```console
+  cd caminho/até/o/repositório
+  java -jar flapda.jar
+  ```
+- Informar strings a serem testadas enquanto o programa pedir
+- Pressionar Ctrl+C para terminar a execução a qualquer momento
+- Ver o resultado detalhado das transições do autômato no arquivo gerado `logs.txt`
 
 ### Discentes:
 
