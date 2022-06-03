@@ -7,11 +7,16 @@ import java.util.Scanner;
 import main.java.automaton.Automaton;
 import main.java.automaton.AutomatonConfig;
 import main.java.automaton.AutomatonLogger;
+import main.java.view.View;
 
 public class App {
   private static Automaton automaton;
 
   public static void main(String[] args) {
+    View.launch(View.class);
+  }
+
+  public static void main() {
     try (Scanner scanner = new Scanner(System.in)) {
       var config = AutomatonConfig.readConfigFrom("automaton.json");
       var transitionTable = AutomatonConfig.readTransitionTableFrom("transition.csv");
