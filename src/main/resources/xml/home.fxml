@@ -42,10 +42,12 @@
       <Pane prefHeight="599.0" prefWidth="800.0">
          <children>
             <Button layoutX="257.0" layoutY="404.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="251.0" text="Rodar Autômato" />
-            <Label fx:id="jsonChooserLabel" layoutX="72.0" layoutY="155.0" text="Label" />
-            <Pane fx:id="jsonChooserContainer" layoutX="72.0" layoutY="107.0" prefHeight="39.0" prefWidth="198.0" />
-            <Pane fx:id="csvChooserContainer" layoutX="508.0" layoutY="107.0" prefHeight="39.0" prefWidth="198.0" />
-            <Label fx:id="csvChooserLabel" layoutX="508.0" layoutY="155.0" text="Label" />
+            <Label fx:id="jsonChooserLabel" layoutX="72.0" layoutY="155.0" text="..." />
+            <Button layoutX="72.0" layoutY="104.0" mnemonicParsing="false" onAction="#chooseJson" prefHeight="45.0" prefWidth="198.0" text="Escolher JSON" />
+            <Label fx:id="csvChooserLabel" layoutX="508.0" layoutY="155.0" text="...l" />
+            <Button layoutX="508.0" layoutY="104.0" mnemonicParsing="false" onAction="#chooseCsv" prefHeight="45.0" prefWidth="198.0" text="Escolher CSV" />
+            <Label fx:id="jsonError" layoutX="72.0" layoutY="81.0" textFill="RED" />
+            <Label fx:id="csvError" layoutX="508.0" layoutY="81.0" textFill="RED" />
          </children>
       </Pane>
   </children>
