@@ -129,13 +129,13 @@
       },
       "results" : [ {
         "state" : "q0",
+        "stackBuffer" : [ "A" ]
+      }, {
+        "state" : "q0",
         "stackBuffer" : [ "1", "S", "1" ]
       }, {
         "state" : "q0",
         "stackBuffer" : [ "0", "S", "0" ]
-      }, {
-        "state" : "q0",
-        "stackBuffer" : [ "A" ]
       } ]
     } ]
   },
@@ -276,6 +276,76 @@
       }, {
         "state" : "q0",
         "stackBuffer" : [ "0", "S", "0" ]
+      } ]
+    } ]
+  },
+  "automato 5" : {
+    "config" : {
+      "states" : [ "q0" ],
+      "inputAlphabet" : [ "0", "1", "a" ],
+      "stackAlphabet" : [ "0", "1", "A", "a", "S" ],
+      "initialState" : "q0",
+      "initialStackSymbol" : "S",
+      "acceptingStates" : [ ]
+    },
+    "transitions" : [ {
+      "arguments" : {
+        "state" : "q0",
+        "input" : "",
+        "topOfStack" : "A"
+      },
+      "results" : [ {
+        "state" : "q0",
+        "stackBuffer" : [ ]
+      }, {
+        "state" : "q0",
+        "stackBuffer" : [ "a", "a", "A" ]
+      } ]
+    }, {
+      "arguments" : {
+        "state" : "q0",
+        "input" : "a",
+        "topOfStack" : "a"
+      },
+      "results" : [ {
+        "state" : "q0",
+        "stackBuffer" : [ ]
+      } ]
+    }, {
+      "arguments" : {
+        "state" : "q0",
+        "input" : "0",
+        "topOfStack" : "0"
+      },
+      "results" : [ {
+        "state" : "q0",
+        "stackBuffer" : [ ]
+      } ]
+    }, {
+      "arguments" : {
+        "state" : "q0",
+        "input" : "1",
+        "topOfStack" : "1"
+      },
+      "results" : [ {
+        "state" : "q0",
+        "stackBuffer" : [ ]
+      } ]
+    }, {
+      "arguments" : {
+        "state" : "q0",
+        "input" : "",
+        "topOfStack" : "S"
+      },
+      "results" : [ {
+        "state" : "q0",
+        "stackBuffer" : [ "A" ]
+      }, {
+        "state" : "q0",
+        "stackBuffer" : [ "0", "S", "0" ]
+      }, {
+        "state" : "q0",
+        "stackBuffer" : [ "1", "S", "1" ]
       } ]
     } ]
   }

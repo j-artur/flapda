@@ -34,22 +34,23 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controller.Home_Controller">
+<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controller.CreateController">
   <children>
       <Pane prefHeight="600.0" prefWidth="800.0">
          <children>
-            <Label fx:id="jsonError" layoutX="72.0" layoutY="81.0" textFill="RED" />
             <Button layoutX="72.0" layoutY="104.0" mnemonicParsing="false" onAction="#chooseJson" prefHeight="45.0" prefWidth="198.0" text="Escolher JSON" />
-            <Label fx:id="jsonChooserLabel" layoutX="72.0" layoutY="155.0" text="" />
-            <Label fx:id="csvError" layoutX="508.0" layoutY="81.0" textFill="RED" />
+            <Label fx:id="jsonChooserLabel" layoutX="72.0" layoutY="155.0" prefHeight="17.0" prefWidth="198.0" text="" />
             <Button layoutX="508.0" layoutY="104.0" mnemonicParsing="false" onAction="#chooseCsv" prefHeight="45.0" prefWidth="198.0" text="Escolher CSV" />
-            <Label fx:id="csvChooserLabel" layoutX="508.0" layoutY="155.0" text="" />
-            <Label fx:id="automatonConfig" layoutX="42.0" layoutY="199.0" prefHeight="355.0" prefWidth="335.0" text="" />
+            <Label fx:id="csvChooserLabel" layoutX="508.0" layoutY="155.0" prefHeight="17.0" prefWidth="198.0" text="" />
+            <Label fx:id="automatonConfig" layoutX="42.0" layoutY="199.0" prefHeight="355.0" prefWidth="410.0" text="" />
 
-            <Button layoutX="508.0" layoutY="401.0" mnemonicParsing="false" onAction="#test" prefHeight="45.0" prefWidth="198.0" text="Criar Autômato" />
+            <Button fx:id="createButton" disable="true" layoutX="508.0" layoutY="509.0" mnemonicParsing="false" onAction="#create" prefHeight="45.0" prefWidth="198.0" text="Criar Autômato" />
+            <TextField fx:id="automatonName" layoutX="270.0" layoutY="56.0" prefHeight="25.0" prefWidth="240.0" />
+            <Label fx:id="jsonError1" layoutX="270.0" layoutY="31.0" prefHeight="17.0" prefWidth="240.0" text="Nome do autômato" />
          </children>
       </Pane>
   </children>

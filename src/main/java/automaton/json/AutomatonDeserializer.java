@@ -47,7 +47,7 @@ public class AutomatonDeserializer extends StdDeserializer<Automaton> {
     transitions.forEach(transition -> transitionTable.put(transition.arguments(), transition.results()));
 
     try {
-      Automaton automaton = new Automaton(config, transitionTable, new AutomatonLogger(System.out));
+      Automaton automaton = new Automaton(config, transitionTable, AutomatonLogger.getInstance());
       return automaton;
     } catch (IllegalAutomatonConfiguration e) {
       throw new IOException(e.getMessage());

@@ -27,12 +27,6 @@ public class View extends Application {
     return primaryStage;
   }
 
-  private static void hidePrimaryWindow() {
-    if (primaryStage != null) {
-      primaryStage.hide();
-    }
-  }
-
   private static Stage setSecondaryWindow(Scene scene, String title) throws Exception {
     closeSecondaryWindow();
     secondaryStage = new Stage();
@@ -69,7 +63,6 @@ public class View extends Application {
   }
 
   public static void logs() throws Exception {
-    setPrimaryWindow(loadXML("logs"), "Flapda - Logs");
+    setSecondaryWindow(loadXML("logs"), "Flapda - Logs");
   }
-
 }

@@ -33,7 +33,7 @@ public record AutomatonConfig(
       throws IOException {
     var csv = Files.readString(Path.of(path));
     var transitionTable = new HashMap<TransitionArguments, Set<TransitionResult>>();
-    List.of(csv.split("\n")).forEach(csvLine -> {
+    List.of(csv.split("\\r?\\n")).forEach(csvLine -> {
       var line = csvLine.split(",", -1);
 
       var currentState = line[0];

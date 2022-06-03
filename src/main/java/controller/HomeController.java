@@ -35,32 +35,46 @@ public class HomeController {
     AutomatonDatabase.getInstance().getMap().forEach((key, value) -> {
       select.getItems().add(key);
     });
+
+    testInput.textProperty().addListener((observable, oldValue, newValue) -> {
+      testButton.setDisable(newValue.isEmpty() || automaton == null);
+    });
   }
 
   public void select(ActionEvent event) throws Exception {
     automaton = AutomatonDatabase.getInstance().getMap().get(select.getValue());
     automatonLabel.setText(automaton.toString());
+    testButton.setDisable(testInput.getText().isEmpty() || automaton == null);
   }
 
   public void create(ActionEvent event) throws Exception {
     View.create();
   }
 
-  public void changeText(ActionEvent event) throws Exception {
-    testButton.setDisable(testInput.getText().isEmpty() || automaton == null);
-  }
-
   public void test(ActionEvent event) {
-    var result = automaton.test(testInput.getText());
+    String string = testInput.getText();
+
+    automaton.getLogger().getStream().println("\n<TESTING STRING \"" + string + "\">\n");
+
+    boolean result = automaton.test(string);
+
+    automaton.getLogger().printAllLogs();
+
+    if (result) {
+      testResult.setTextFill(Paint.valueOf("#00bb00"));
+      testResult.setText("Entrada válida!");
+
+      automaton.getLogger().getStream().println("\n<STRING ACCEPTED>\n");
+      automaton.getLogger().getStream().println("\n-- Transition Path --\n");
+      automaton.getLogger().printSuccessLogs();
+    } else {
+      testResult.setTextFill(Paint.valueOf("#dd0000"));
+      testResult.setText("Entrada inválida!");
+
+      automaton.getLogger().getStream().println("\n<STRING DENIED>\n");
+    }
 
     seeLogs.setVisible(result);
-    if (result) {
-      testResult.setTextFill(Paint.valueOf("#00ff00"));
-      testResult.setText("Entrada válida!");
-    } else {
-      testResult.setTextFill(Paint.valueOf("#ff0000"));
-      testResult.setText("Entrada inválida!");
-    }
   }
 
   public void logs(ActionEvent event) throws Exception {

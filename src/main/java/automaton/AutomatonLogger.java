@@ -1,5 +1,6 @@
 package main.java.automaton;
 
+import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -10,13 +11,32 @@ import main.java.transition.TransitionArguments;
 import main.java.transition.TransitionResult;
 
 public class AutomatonLogger {
+  private static AutomatonLogger instance;
+
   private Deque<AutomatonState> successLogs = new ArrayDeque<>();
   private Deque<AutomatonState> allLogs = new ArrayDeque<>();
   private Map<TransitionArguments, Set<TransitionResult>> transitionTable;
+  private File file;
   private PrintStream stream;
 
-  public AutomatonLogger(PrintStream stream) {
-    this.stream = stream;
+  public File getFile() {
+    return file;
+  }
+
+  private AutomatonLogger() {
+    try {
+      file = new File("logs.txt");
+      this.stream = new PrintStream(file);
+    } catch (Exception e) {
+      this.stream = System.out;
+    }
+  }
+
+  public static AutomatonLogger getInstance() {
+    if (instance == null)
+      instance = new AutomatonLogger();
+
+    return instance;
   }
 
   public void logSuccess(AutomatonState automatonState) {
