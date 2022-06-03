@@ -1,62 +1,69 @@
 package main.java.controller;
 
-import java.io.File;
-import java.io.PrintStream;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.stage.FileChooser;
+import javafx.scene.control.TextField;
+import javafx.scene.paint.Paint;
 import main.java.automaton.Automaton;
-import main.java.automaton.AutomatonConfig;
-import main.java.automaton.AutomatonLogger;
+import main.java.automaton.AutomatonDatabase;
 import main.java.view.View;
 
 public class HomeController {
   @FXML
-  Label jsonChooserLabel;
-  @FXML
-  Label csvChooserLabel;
-  @FXML
-  Label jsonError;
-  @FXML
-  Label csvError;
+  ComboBox<String> select;
 
   Automaton automaton;
 
   @FXML
-  Label automatonConfig;
+  Label automatonLabel;
+
+  @FXML
+  TextField testInput;
+  @FXML
+  Button testButton;
+  @FXML
+  Label testResult;
+
+  @FXML
+  Button seeLogs;
 
   @FXML
   public void initialize() {
-
+    AutomatonDatabase.getInstance().getMap().forEach((key, value) -> {
+      select.getItems().add(key);
+    });
   }
 
-  public void chooseJson(ActionEvent event) {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
-    File selectedFile = fileChooser.showOpenDialog(View.getPrimaryStage());
-    jsonChooserLabel.setText(selectedFile.getAbsolutePath());
+  public void select(ActionEvent event) throws Exception {
+    automaton = AutomatonDatabase.getInstance().getMap().get(select.getValue());
+    automatonLabel.setText(automaton.toString());
   }
 
-  public void chooseCsv(ActionEvent event) {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-    File selectedFile = fileChooser.showOpenDialog(View.getPrimaryStage());
-    csvChooserLabel.setText(selectedFile.getAbsolutePath());
+  public void create(ActionEvent event) throws Exception {
+    View.create();
+  }
+
+  public void changeText(ActionEvent event) throws Exception {
+    testButton.setDisable(testInput.getText().isEmpty() || automaton == null);
   }
 
   public void test(ActionEvent event) {
-    try {
-      var config = AutomatonConfig.readConfigFrom(jsonChooserLabel.getText());
-      var transitionTable = AutomatonConfig.readTransitionTableFrom(csvChooserLabel.getText());
-      automaton = new Automaton(config, transitionTable, new AutomatonLogger(new PrintStream(new File("logs.txt"))));
+    var result = automaton.test(testInput.getText());
 
-      System.out.println(automaton);
-
-      automatonConfig.setText(automaton.toString());
-    } catch (Exception e) {
-      automatonConfig.setText(e.getMessage());
+    seeLogs.setVisible(result);
+    if (result) {
+      testResult.setTextFill(Paint.valueOf("#00ff00"));
+      testResult.setText("Entrada válida!");
+    } else {
+      testResult.setTextFill(Paint.valueOf("#ff0000"));
+      testResult.setText("Entrada inválida!");
     }
+  }
+
+  public void logs(ActionEvent event) throws Exception {
+    View.logs();
   }
 }

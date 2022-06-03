@@ -43,7 +43,7 @@ public class AutomatonLogger {
 
     while (!this.successLogs.isEmpty()) {
       var log = this.successLogs.pop();
-      this.stream.println("> " + log.lastTransition().args() + " = " + log.lastTransition().result());
+      this.stream.println("> " + log.lastTransition().arguments() + " = " + log.lastTransition().result());
       this.stream.println("("
           + log.state() + ", "
           + (log.input().length() > 0 ? "\"" + log.input() + "\"" : "ε") + ", "
@@ -74,8 +74,8 @@ public class AutomatonLogger {
 
       if (log.step() > lastStep)
         this.stream.println("> " + log.step() + ". "
-            + log.lastTransition().args() + " = "
-            + this.transitionTable.get(log.lastTransition().args()));
+            + log.lastTransition().arguments() + " = "
+            + this.transitionTable.get(log.lastTransition().arguments()));
       else if (log.step() == lastStep)
         this.stream.println("> No transitions. Continue on " + log.step() + ".");
       else

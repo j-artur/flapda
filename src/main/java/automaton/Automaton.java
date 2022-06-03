@@ -4,15 +4,30 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import main.java.automaton.json.AutomatonDeserializer;
+import main.java.automaton.json.AutomatonSerializer;
 import main.java.exception.IllegalAutomatonConfiguration;
-import main.java.transition.Transition;
 import main.java.transition.TransitionArguments;
+import main.java.transition.TransitionDescription;
 import main.java.transition.TransitionResult;
 
+@JsonSerialize(using = AutomatonSerializer.class)
+@JsonDeserialize(using = AutomatonDeserializer.class)
 public class Automaton {
   private AutomatonConfig config;
   private Map<TransitionArguments, Set<TransitionResult>> transitionTable;
   private AutomatonLogger logger;
+
+  public AutomatonConfig getConfig() {
+    return config;
+  }
+
+  public Map<TransitionArguments, Set<TransitionResult>> getTransitionTable() {
+    return transitionTable;
+  }
 
   public Automaton(
       AutomatonConfig config,
@@ -116,7 +131,7 @@ public class Automaton {
             result.state(),
             string,
             stack.copy().pushReverse(result.stackBuffer()),
-            new Transition(args, result),
+            new TransitionDescription(args, result),
             previousState.step() + 1));
       }
 
@@ -131,7 +146,7 @@ public class Automaton {
             result.state(),
             string.substring(1),
             stack.copy().pushReverse(result.stackBuffer()),
-            new Transition(args, result),
+            new TransitionDescription(args, result),
             previousState.step() + 1));
       }
     }

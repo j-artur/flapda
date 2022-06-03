@@ -63,4 +63,13 @@ public class View extends Application {
   public static void home() throws Exception {
     setPrimaryWindow(loadXML("home"), "Flapda");
   }
+
+  public static void create() throws Exception {
+    setPrimaryWindow(loadXML("create"), "Flapda - Criar autômato");
+  }
+
+  public static void logs() throws Exception {
+    setPrimaryWindow(loadXML("logs"), "Flapda - Logs");
+  }
+
 }

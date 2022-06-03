@@ -1,4 +1,6 @@
 package main.java.transition;
 
-public record Transition(TransitionArguments args, TransitionResult result) {
+import java.util.Set;
+
+public record Transition(TransitionArguments arguments, Set<TransitionResult> results) {
 }

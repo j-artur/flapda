@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import main.java.automaton.Automaton;
 import main.java.automaton.AutomatonConfig;
+import main.java.automaton.AutomatonDatabase;
 import main.java.automaton.AutomatonLogger;
 import main.java.view.View;
 
@@ -18,12 +19,25 @@ public class App {
 
   public static void main() {
     try (Scanner scanner = new Scanner(System.in)) {
+      AutomatonDatabase database = AutomatonDatabase.getInstance();
+
+      database.getMap().forEach((key, value) -> {
+        System.out.println(key + ":\n" + value + "\n");
+      });
+
       var config = AutomatonConfig.readConfigFrom("automaton.json");
       var transitionTable = AutomatonConfig.readTransitionTableFrom("transition.csv");
 
       automaton = new Automaton(config, transitionTable, new AutomatonLogger(new PrintStream(new File("logs.txt"))));
 
       System.out.println(automaton);
+      System.out.print("Nome do autômato: ");
+      String name = scanner.nextLine();
+
+      database.add(name, automaton);
+
+      database.flush();
+
       automaton.getLogger().getStream().println(automaton);
 
       System.out.println("\nTestando o autômato descrito acima.\n");
@@ -40,6 +54,7 @@ public class App {
     } catch (Exception e) {
       System.out.println("Ocorreu um erro...");
       System.out.println(e.getMessage());
+      e.printStackTrace();
     }
   }
 
