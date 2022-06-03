@@ -53,6 +53,8 @@ public class View extends Application {
 
   @Override
   public void start(Stage stage) throws Exception {
+    stage.setWidth(800);
+    stage.setHeight(600);
     primaryStage = stage;
     primaryStage.setResizable(false);
     home();

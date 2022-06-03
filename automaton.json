@@ -4,5 +4,5 @@
   "stackAlphabet": ["S", "0", "1", "A", "a"],
   "initialState": "q0",
   "initialStackSymbol": "S",
-  "acceptingStates": []
+  "acceptingStates": ["q2"]
 }
