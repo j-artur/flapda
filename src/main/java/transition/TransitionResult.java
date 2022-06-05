@@ -1,10 +1,17 @@
 package main.java.transition;
 
-import java.util.List;
+import main.java.util.List;
 
 public record TransitionResult(String state, List<String> stackBuffer) {
   @Override
   public String toString() {
-    return "(" + state + "," + (stackBuffer.isEmpty() ? "ε" : String.join("", stackBuffer)) + ")";
+    String string = "(" + state + ",";
+    if (stackBuffer.isEmpty())
+      string += "ε";
+    else
+      for (var symbol : stackBuffer)
+        string += symbol;
+    string += ")";
+    return string;
   }
 }

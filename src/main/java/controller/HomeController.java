@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import main.java.automaton.Automaton;
 import main.java.automaton.AutomatonDatabase;
+import main.java.automaton.AutomatonLogger;
 import main.java.view.View;
 
 public class HomeController {
@@ -54,24 +55,24 @@ public class HomeController {
   public void test(ActionEvent event) {
     String string = testInput.getText();
 
-    automaton.getLogger().getStream().println("\n<TESTING STRING \"" + string + "\">\n");
+    AutomatonLogger.getInstance().getStream().println("\n<TESTING STRING \"" + string + "\">\n");
 
     boolean result = automaton.test(string);
 
-    automaton.getLogger().printAllLogs();
+    AutomatonLogger.getInstance().printAllLogs();
 
     if (result) {
       testResult.setTextFill(Paint.valueOf("#00bb00"));
       testResult.setText("Entrada válida!");
 
-      automaton.getLogger().getStream().println("\n<STRING ACCEPTED>\n");
-      automaton.getLogger().getStream().println("\n-- Transition Path --\n");
-      automaton.getLogger().printSuccessLogs();
+      AutomatonLogger.getInstance().getStream().println("\n<STRING ACCEPTED>\n");
+      AutomatonLogger.getInstance().getStream().println("\n-- Transition Path --\n");
+      AutomatonLogger.getInstance().printSuccessLogs();
     } else {
       testResult.setTextFill(Paint.valueOf("#dd0000"));
       testResult.setText("Entrada inválida!");
 
-      automaton.getLogger().getStream().println("\n<STRING DENIED>\n");
+      AutomatonLogger.getInstance().getStream().println("\n<STRING DENIED>\n");
     }
 
     seeLogs.setVisible(result);

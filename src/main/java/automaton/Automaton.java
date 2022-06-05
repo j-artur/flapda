@@ -13,6 +13,7 @@ import main.java.exception.IllegalAutomatonConfiguration;
 import main.java.transition.TransitionArguments;
 import main.java.transition.TransitionDescription;
 import main.java.transition.TransitionResult;
+import main.java.util.Stack;
 
 @JsonSerialize(using = AutomatonSerializer.class)
 @JsonDeserialize(using = AutomatonDeserializer.class)
@@ -88,7 +89,7 @@ public class Automaton {
 
   public boolean test(String string) {
     var state = this.config.initialState();
-    var stack = new AutomatonStack();
+    var stack = new Stack<String>();
     stack.push(this.config.initialStackSymbol());
 
     var initialAutomatonState = new AutomatonState(state, string, stack, null, 0);
@@ -103,7 +104,7 @@ public class Automaton {
       return true;
     }
 
-    if (automatonState.stack().empty())
+    if (automatonState.stack().isEmpty())
       return false;
 
     for (var newState : updateState(automatonState)) {
@@ -118,7 +119,7 @@ public class Automaton {
 
   private Set<AutomatonState> updateState(AutomatonState previousState) {
     var string = previousState.input();
-    var stack = previousState.stack().copy();
+    var stack = previousState.stack().clone();
     var topOfStack = stack.pop();
 
     Set<AutomatonState> nextStates = new HashSet<>();
@@ -130,7 +131,7 @@ public class Automaton {
         nextStates.add(new AutomatonState(
             result.state(),
             string,
-            stack.copy().pushReverse(result.stackBuffer()),
+            stack.clone().pushAll(result.stackBuffer().reverse()),
             new TransitionDescription(args, result),
             previousState.step() + 1));
       }
@@ -145,7 +146,7 @@ public class Automaton {
         nextStates.add(new AutomatonState(
             result.state(),
             string.substring(1),
-            stack.copy().pushReverse(result.stackBuffer()),
+            stack.clone().pushAll(result.stackBuffer().reverse()),
             new TransitionDescription(args, result),
             previousState.step() + 1));
       }
@@ -158,7 +159,7 @@ public class Automaton {
     if (!automatonState.input().isEmpty())
       return false;
 
-    if ((this.config.acceptingStates().isEmpty() && automatonState.stack().empty())
+    if ((this.config.acceptingStates().isEmpty() && automatonState.stack().isEmpty())
         || this.config.acceptingStates().contains(automatonState.state()))
       return true;
 
@@ -174,5 +175,16 @@ public class Automaton {
     return "Automaton Config: " + this.config.toString()
         + "\nTransition Table:\n"
         + String.join("\n", this.transitionTable.entrySet().stream().map(e -> e.toString()).toList());
+  }
+
+  public static String stringifyStack(Stack<String> stack) {
+    if (stack.isEmpty())
+      return "ε";
+
+    String string = "";
+    for (var symbol : stack)
+      string += symbol;
+
+    return string;
   }
 }

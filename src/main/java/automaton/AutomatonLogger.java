@@ -2,19 +2,18 @@ package main.java.automaton;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Map;
 import java.util.Set;
 
 import main.java.transition.TransitionArguments;
 import main.java.transition.TransitionResult;
+import main.java.util.Deque;
 
 public class AutomatonLogger {
   private static AutomatonLogger instance;
 
-  private Deque<AutomatonState> successLogs = new ArrayDeque<>();
-  private Deque<AutomatonState> allLogs = new ArrayDeque<>();
+  private Deque<AutomatonState> successLogs = new Deque<>();
+  private Deque<AutomatonState> allLogs = new Deque<>();
   private Map<TransitionArguments, Set<TransitionResult>> transitionTable;
   private File file;
   private PrintStream stream;
@@ -44,7 +43,7 @@ public class AutomatonLogger {
   }
 
   public void log(AutomatonState automatonState) {
-    this.allLogs.add(automatonState);
+    this.allLogs.shift(automatonState);
   }
 
   public void printSuccessLogs() {
@@ -59,7 +58,7 @@ public class AutomatonLogger {
     this.stream.println("("
         + start.state() + ", "
         + "\"" + start.input() + "\"" + ", "
-        + start.stack() + ")");
+        + Automaton.stringifyStack(start.stack()) + ")");
 
     while (!this.successLogs.isEmpty()) {
       var log = this.successLogs.pop();
@@ -67,7 +66,7 @@ public class AutomatonLogger {
       this.stream.println("("
           + log.state() + ", "
           + (log.input().length() > 0 ? "\"" + log.input() + "\"" : "ε") + ", "
-          + log.stack() + ")");
+          + Automaton.stringifyStack(log.stack()) + ")");
     }
     this.stream.println("> Done");
   }
@@ -87,7 +86,7 @@ public class AutomatonLogger {
     this.stream.println("("
         + start.state() + ", "
         + (start.input().length() > 0 ? "\"" + start.input() + "\"" : "ε") + ", "
-        + start.stack() + ")");
+        + Automaton.stringifyStack(start.stack()) + ")");
 
     while (!this.allLogs.isEmpty()) {
       var log = this.allLogs.pop();
@@ -106,7 +105,7 @@ public class AutomatonLogger {
           + log.lastTransition().result() + " -> ("
           + log.state() + ", "
           + (log.input().length() > 0 ? "\"" + log.input() + "\"" : "ε") + ", "
-          + log.stack() + ")");
+          + Automaton.stringifyStack(log.stack()) + ")");
     }
     this.stream.println("> No transitions. Finish");
   }
