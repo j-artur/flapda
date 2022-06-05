@@ -75,7 +75,7 @@ public class HomeController {
       AutomatonLogger.getInstance().getStream().println("\n<STRING DENIED>\n");
     }
 
-    seeLogs.setVisible(result);
+    seeLogs.setVisible(true);
   }
 
   public void logs(ActionEvent event) throws Exception {

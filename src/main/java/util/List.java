@@ -1,5 +1,13 @@
 package main.java.util;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import main.java.automaton.json.ListDeserializer;
+import main.java.automaton.json.ListSerializer;
+
+@JsonSerialize(using = ListSerializer.class)
+@JsonDeserialize(using = ListDeserializer.class)
 public interface List<T> extends Iterable<T> {
   /**
    * Gets an item from a position in the list
