@@ -7,6 +7,16 @@ import java.util.Iterator;
  * type/interface.
  */
 public class Stack<T> implements Iterable<T> {
+  private class Node {
+    T data;
+    Node next;
+
+    Node(T data) {
+      this.data = data;
+      this.next = null;
+    }
+  }
+
   private int size = 0;
   private Node top = null;
 
@@ -42,12 +52,12 @@ public class Stack<T> implements Iterable<T> {
     if (this.isEmpty())
       return null;
 
-    Node top = this.top;
+    Node node = this.top;
 
-    this.top = top.next;
+    this.top = node.next;
     this.size--;
 
-    return top.data;
+    return node.data;
   }
 
   /**
@@ -146,15 +156,5 @@ public class Stack<T> implements Iterable<T> {
     }
     string += "]";
     return string;
-  }
-
-  private class Node {
-    T data;
-    Node next;
-
-    Node(T data) {
-      this.data = data;
-      this.next = null;
-    }
   }
 }

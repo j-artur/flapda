@@ -3,6 +3,18 @@ package main.java.util;
 import java.util.Iterator;
 
 public class DoubleLinkedList<T> implements List<T> {
+  private class Node {
+    Node prev;
+    T data;
+    Node next;
+
+    Node(T data) {
+      this.prev = null;
+      this.data = data;
+      this.next = null;
+    }
+  }
+
   private int size = 0;
   private Node head = null;
   private Node tail = null;
@@ -306,17 +318,5 @@ public class DoubleLinkedList<T> implements List<T> {
     }
     string += "]";
     return string;
-  }
-
-  private class Node {
-    Node prev;
-    T data;
-    Node next;
-
-    Node(T data) {
-      this.prev = null;
-      this.data = data;
-      this.next = null;
-    }
   }
 }
